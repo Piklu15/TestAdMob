@@ -6,6 +6,7 @@
 //  Copyright © 2019 Piklu Majumder-401. All rights reserved.
 //
 
+@import GoogleMobileAds;
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
@@ -16,6 +17,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+   // [GADMobileAds configureWithApplicationID:@"ca-app-pub-8789471459818531~7298415995"];
     // Override point for customization after application launch.
     return YES;
 }
