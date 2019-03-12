@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-
+@property(strong,nonatomic) UIView * windowRootView;
+@property(strong,nonatomic) UIViewController * rootViewcontrollerForBannerAd;
 @property (strong, nonatomic) UIWindow *window;
++(AppDelegate *)shared;
 
 
 @end

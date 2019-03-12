@@ -8,9 +8,10 @@
 
 @import GoogleMobileAds;
 #import "ViewController.h"
+#import "AppDelegate.h"
 
 @interface ViewController ()<GADBannerViewDelegate>
-@property (strong, nonatomic) IBOutlet GADBannerView *gADBannerView;
+@property (strong, nonatomic)  GADBannerView *gADBannerView;
 
 @end
 
@@ -18,11 +19,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    AppDelegate * delegate = [AppDelegate shared];
+
+    self.gADBannerView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    [self positionBannerViewAtBottomOfSafeArea:self.gADBannerView];
+
+    // Replace this ad unit ID with your own ad unit ID.
     self.gADBannerView.adUnitID = @"ca-app-pub-3940256099942544/2934735716";
-    self.gADBannerView.rootViewController = self;
-    self.gADBannerView.delegate = self;
+    self.gADBannerView.rootViewController = [delegate rootViewcontrollerForBannerAd];
     GADRequest *request = [GADRequest request];
     request.testDevices = @[ kGADSimulatorID ];
+
     [self.gADBannerView loadRequest:request];
 
 
@@ -32,6 +40,23 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
+}
+
+
+- (void)positionBannerViewAtBottomOfSafeArea:(UIView *_Nonnull)bannerView NS_AVAILABLE_IOS(11.0) {
+    // Position the banner. Stick it to the bottom of the Safe Area.
+    // Centered horizontally.
+
+    AppDelegate * delegate = [AppDelegate shared];
+    UIView * rootViewForBannerAd = [delegate windowRootView];
+
+    self.gADBannerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [rootViewForBannerAd addSubview:self.gADBannerView];
+    UILayoutGuide *guide = rootViewForBannerAd.safeAreaLayoutGuide;
+    [NSLayoutConstraint activateConstraints:@[
+                                              [self.gADBannerView.centerXAnchor constraintEqualToAnchor:guide.centerXAnchor],
+                                              [self.gADBannerView.bottomAnchor constraintEqualToAnchor:guide.bottomAnchor]
+                                              ]];
 }
 
 /// Tells the delegate an ad request loaded an ad.
